@@ -1,0 +1,194 @@
+{
+  "project": "ChurnGuard AI",
+  "trained_at": "2026-11-14T09:57:10+00:00",
+  "data_source": "synthetic",
+  "data_is_synthetic": true,
+  "data_note": "SYNTHETIC data for software testing only - not real customers.",
+  "xgboost_used": false,
+  "explainer_backend": "Baseline-substitution attribution (SHAP not installed)",
+  "explainer_unit": "probability points",
+  "best_model": "Logistic Regression",
+  "decision_threshold": 0.5,
+  "risk_thresholds": {
+    "low": 0.3,
+    "high": 0.6
+  },
+  "n_train": 5634,
+  "n_test": 1409,
+  "cv_folds": 5,
+  "search_iterations": 10,
+  "cleaning": {
+    "rows_raw": 7058,
+    "duplicates_removed": 15,
+    "duplicate_feature_rows_kept": 0,
+    "total_charges_blank": 11,
+    "other_missing_values": {},
+    "rows_dropped_bad_target": 0,
+    "rows_clean": 7043
+  },
+  "class_balance": {
+    "n_churn": 1855,
+    "n_retained": 5188,
+    "churn_rate": 0.2634,
+    "imbalance_ratio": 2.797
+  },
+  "outliers": {
+    "tenure": {
+      "q1": 11.0,
+      "q3": 46.0,
+      "lower": -41.5,
+      "upper": 98.5,
+      "n_outliers": 0,
+      "pct": 0.0
+    },
+    "MonthlyCharges": {
+      "q1": 48.6,
+      "q3": 86.86,
+      "lower": -8.79,
+      "upper": 144.25,
+      "n_outliers": 0,
+      "pct": 0.0
+    },
+    "TotalCharges": {
+      "q1": 576.8050000000001,
+      "q3": 2917.02,
+      "lower": -2933.5175,
+      "upper": 6427.342500000001,
+      "n_outliers": 68,
+      "pct": 0.97
+    }
+  },
+  "imbalance_handling": "class weights (balanced) / scale_pos_weight; no resampling",
+  "models": [
+    {
+      "model": "Logistic Regression",
+      "cv_recall": 0.7951542451542452,
+      "cv_f1": 0.6162016077891033,
+      "cv_roc_auc": 0.8328099978401182,
+      "cv_f1_std": 0.020244252736213192,
+      "accuracy": 0.7544357700496807,
+      "precision": 0.5224416517055656,
+      "recall": 0.784366576819407,
+      "f1": 0.6271551724137931,
+      "roc_auc": 0.8404380183745437,
+      "pr_auc": 0.6390705082104275,
+      "tn": 772,
+      "fp": 266,
+      "fn": 80,
+      "tp": 291,
+      "selection_score": 0.7480552835944888
+    },
+    {
+      "model": "Decision Tree",
+      "cv_recall": 0.7796501046501045,
+      "cv_f1": 0.6012928679725322,
+      "cv_roc_auc": 0.8084248912110358,
+      "cv_f1_std": 0.022295073486244488,
+      "accuracy": 0.7366926898509581,
+      "precision": 0.5,
+      "recall": 0.7412398921832885,
+      "f1": 0.5971769815418024,
+      "roc_auc": 0.8164532145064373,
+      "pr_auc": 0.5754441054652228,
+      "tn": 763,
+      "fp": 275,
+      "fn": 96,
+      "tp": 275,
+      "selection_score": 0.7297892879445574
+    },
+    {
+      "model": "Random Forest",
+      "cv_recall": 0.7654904904904906,
+      "cv_f1": 0.6145703491293207,
+      "cv_roc_auc": 0.8274625912878925,
+      "cv_f1_std": 0.01658944420141515,
+      "accuracy": 0.7601135557132718,
+      "precision": 0.5303867403314917,
+      "recall": 0.7762803234501348,
+      "f1": 0.6301969365426696,
+      "roc_auc": 0.8351666329090258,
+      "pr_auc": 0.6228216712581277,
+      "tn": 783,
+      "fp": 255,
+      "fn": 83,
+      "tp": 288,
+      "selection_score": 0.7358411436359013
+    },
+    {
+      "model": "Gradient Boosting (XGBoost fallback)",
+      "cv_recall": 0.7917735917735917,
+      "cv_f1": 0.6159859463266956,
+      "cv_roc_auc": 0.8262846321129453,
+      "cv_f1_std": 0.016123371261260386,
+      "accuracy": 0.7530163236337828,
+      "precision": 0.5207207207207207,
+      "recall": 0.7789757412398922,
+      "f1": 0.6241900647948164,
+      "roc_auc": 0.8327568566962176,
+      "pr_auc": 0.6254037797506982,
+      "tn": 772,
+      "fp": 266,
+      "fn": 82,
+      "tp": 289,
+      "selection_score": 0.7446813900710776
+    }
+  ],
+  "best_params": {
+    "Logistic Regression": {
+      "C": 3
+    },
+    "Decision Tree": {
+      "min_samples_leaf": 80,
+      "max_depth": 8,
+      "criterion": "gini"
+    },
+    "Random Forest": {
+      "n_estimators": 150,
+      "min_samples_leaf": 15,
+      "max_features": "sqrt",
+      "max_depth": 8
+    },
+    "Gradient Boosting (XGBoost fallback)": {
+      "min_samples_leaf": 20,
+      "max_iter": 100,
+      "max_depth": 4,
+      "learning_rate": 0.03,
+      "l2_regularization": 0.0
+    }
+  },
+  "test_metrics": {
+    "model": "Logistic Regression",
+    "cv_recall": 0.7951542451542452,
+    "cv_f1": 0.6162016077891033,
+    "cv_roc_auc": 0.8328099978401182,
+    "cv_f1_std": 0.020244252736213192,
+    "accuracy": 0.7544357700496807,
+    "precision": 0.5224416517055656,
+    "recall": 0.784366576819407,
+    "f1": 0.6271551724137931,
+    "roc_auc": 0.8404380183745437,
+    "pr_auc": 0.6390705082104275,
+    "tn": 772,
+    "fp": 266,
+    "fn": 80,
+    "tp": 291,
+    "selection_score": 0.7480552835944888
+  },
+  "confusion_matrix": [
+    [
+      772,
+      266
+    ],
+    [
+      80,
+      291
+    ]
+  ],
+  "classification_report": "              precision    recall  f1-score   support\n\n    Retained       0.91      0.74      0.82      1038\n       Churn       0.52      0.78      0.63       371\n\n    accuracy                           0.75      1409\n   macro avg       0.71      0.76      0.72      1409\nweighted avg       0.81      0.75      0.77      1409\n",
+  "versions": {
+    "scikit-learn": "1.9.1",
+    "pandas": "3.0.6",
+    "numpy": "2.5.4"
+  },
+  "train_seconds": 125.7
+}

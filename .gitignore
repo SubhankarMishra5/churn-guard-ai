@@ -1,0 +1,9 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.ipynb_checkpoints/
+.pytest_cache/
+.DS_Store
+# Real dataset is downloaded by each user (do not redistribute)
+data/raw/*.csv
