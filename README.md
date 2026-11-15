@@ -1,5 +1,8 @@
 # ChurnGuard AI - Intelligent Customer Churn Prediction and Retention Intelligence System
 
+**Live demo:** https://churn-guard-ai-2005.streamlit.app/  
+(free hosting: the first load after idle can take 30-60 seconds)
+
 End-to-end machine learning project: data validation and cleaning, feature engineering, four
 compared models (Logistic Regression, Decision Tree, Random Forest, XGBoost), evaluation focused on
 recall / F1 / ROC-AUC, explainability, retention recommendations and a five-page Streamlit dashboard.
@@ -95,3 +98,6 @@ monitoring; fairness audit; FastAPI service, Docker and CI.
 See [docs/GITHUB_PUBLISHING.md](docs/GITHUB_PUBLISHING.md). References in the report should be
 verified against the originals (page numbers, venues) before academic submission, and the literature
 review extended with papers you have read yourself.
+
+## Dataset credit
+IBM Telco Customer Churn sample dataset (IBM Sample Data Sets; Kaggle and Hugging Face mirrors).
