@@ -18,6 +18,7 @@ import numpy as np
 import pandas as pd
 
 from config.schema import FRIENDLY, RAW_FEATURES
+from src.feature_engineering import add_features
 
 try:                                    # optional dependency
     import shap
@@ -99,15 +100,23 @@ class ChurnExplainer:
     # ------------------------------------------------------------- public
     def contributions(self, X: pd.DataFrame) -> pd.DataFrame:
         X = X[RAW_FEATURES].reset_index(drop=True)
-        return self._shap_matrix(X) if self.backend == "shap" else self._baseline_matrix(X)
+        if self.backend == "shap":
+            try:
+                return self._shap_matrix(X)
+            except Exception:           # never crash the app because of SHAP
+                self.backend, self.unit = "baseline", "probability points"
+        return self._baseline_matrix(X)
 
     def local(self, record: pd.DataFrame) -> pd.DataFrame:
         """Per-feature contributions for a single customer (1-row DataFrame)."""
         c = self.contributions(record.iloc[[0]]).iloc[0]
+        # SHAP can attribute to engineered features (e.g. TenureGroup), so look values
+        # up in the engineered frame, not just the raw record.
+        full = add_features(record.iloc[[0]]).iloc[0]
         out = pd.DataFrame({
             "feature": c.index,
             "label": [FRIENDLY.get(f, f) for f in c.index],
-            "value": [record.iloc[0][f] for f in c.index],
+            "value": [full[f] if f in full.index else "n/a" for f in c.index],
             "contribution": c.values})
         out["direction"] = np.where(out["contribution"] >= 0, "raises risk", "lowers risk")
         return out.reindex(out["contribution"].abs().sort_values(ascending=False).index

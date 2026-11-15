@@ -40,6 +40,28 @@ class TestExplainability(unittest.TestCase):
         self.assertEqual(len(lines), 3)
         self.assertTrue(all("churn risk" in s for s in lines))
 
+    def test_local_handles_engineered_feature_contributions(self):
+        """Regression: SHAP returns engineered features (TenureGroup, ...) not in the raw record."""
+        from unittest import mock
+        rec = validate_input_frame(pd.DataFrame([sample_record(tenure=3)]))
+        fake = pd.DataFrame([{**{f: 0.0 for f in RAW_FEATURES}, "TenureGroup": 0.2,
+                              "NumAddOnServices": -0.1, "IsMonthToMonth": 0.3}])
+        with mock.patch.object(ChurnExplainer, "contributions", return_value=fake):
+            loc = self.expl.local(rec)
+        row = loc.set_index("feature").loc["TenureGroup"]
+        self.assertEqual(row["value"], "0-12")
+        self.assertEqual(loc.set_index("feature").loc["IsMonthToMonth", "value"], 1)
+
+    def test_shap_failure_falls_back_to_baseline(self):
+        from unittest import mock
+        e = ChurnExplainer(tiny_model(), self.clean[RAW_FEATURES].head(100), prefer_shap=False)
+        e.backend = "shap"
+        with mock.patch.object(ChurnExplainer, "_shap_matrix", side_effect=RuntimeError("boom")):
+            rec = validate_input_frame(pd.DataFrame([sample_record()]))
+            loc = e.local(rec)
+        self.assertEqual(e.backend, "baseline")
+        self.assertEqual(len(loc), len(RAW_FEATURES))
+
     def test_backend_label_reports_method(self):
         self.assertIn(self.expl.backend, {"baseline", "shap"})
 
