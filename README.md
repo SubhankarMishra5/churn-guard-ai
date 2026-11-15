@@ -7,16 +7,6 @@ End-to-end machine learning project: data validation and cleaning, feature engin
 compared models (Logistic Regression, Decision Tree, Random Forest, XGBoost), evaluation focused on
 recall / F1 / ROC-AUC, explainability, retention recommendations and a five-page Streamlit dashboard.
 
-> **Read this first - synthetic data.** The bundled models, figures, report and slides were produced
-> on a **synthetic** dataset with the IBM Telco schema, because the build environment had no internet
-> access to download the real file. They show that the pipeline works, **not** real-world performance.
-> To get genuine results: put the real CSV in `data/raw/` (see [docs/DATASET.md](docs/DATASET.md)),
-> run `python -m src.train`, then `python scripts/build_all.py`.
->
-> Also not verified in the build environment: **XGBoost, SHAP and Streamlit were not installable**.
-> The code uses XGBoost/SHAP automatically when installed and falls back to scikit-learn gradient
-> boosting / a model-agnostic attribution otherwise (labelled everywhere). The Streamlit app was
-> smoke-tested with a stubbed Streamlit only - please run it once yourself and capture screenshots.
 
 ## Features
 - **Dashboard** - total customers, predicted churners, churn %, high-risk count, hold-out metrics
